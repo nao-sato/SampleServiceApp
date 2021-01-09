@@ -1,9 +1,6 @@
 package com.example.servicesampleapp
 
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.Service
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.media.MediaPlayer
@@ -36,9 +33,10 @@ class SoundManageService : Service() {
                 setDataSource(applicationContext, mediaFileUri)
                 setOnPreparedListener {
                     it.start()
+                    notificationOnStart()
                 }
                 setOnCompletionListener {
-                    notificationBuilder()
+                    notificationOnCompletion()
                     stopSelf()
                 }
                 prepareAsync()
@@ -63,7 +61,23 @@ class SoundManageService : Service() {
         manager.createNotificationChannel(channel)
     }
 
-    private fun notificationBuilder(){
+    private fun notificationOnStart(){
+        val intent = Intent(applicationContext,MainActivity::class.java)
+        intent.putExtra(KEY_BOOL, true)
+        val stopServiceIntent = PendingIntent.getActivity(applicationContext,0,intent,PendingIntent.FLAG_CANCEL_CURRENT)
+        val builder = NotificationCompat.Builder(applicationContext,"soundmanagerservice_notification_channel").apply {
+            setSmallIcon(android.R.drawable.ic_dialog_info)
+            setContentTitle(getString(R.string.msg_notification_title_start))
+            setContentText(getString(R.string.msg_notification_text_start))
+            setContentIntent(stopServiceIntent)
+            setAutoCancel(true)
+        }
+        val notification = builder.build()
+        val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.notify(0,notification)
+    }
+
+    private fun notificationOnCompletion(){
         val builder = NotificationCompat.Builder(applicationContext,"soundmanagerservice_notification_channel").apply {
             setSmallIcon(android.R.drawable.ic_dialog_info)
             setContentTitle(getString(R.string.msg_notification_title_finish))
@@ -85,5 +99,8 @@ class SoundManageService : Service() {
             it.release()
             player = null
         }
+    }
+    companion object{
+        const val KEY_BOOL = "key_bool"
     }
 }
