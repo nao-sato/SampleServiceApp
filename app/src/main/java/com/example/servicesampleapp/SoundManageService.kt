@@ -12,8 +12,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import java.io.IOException
 
+private var player: MediaPlayer? = null
+
 class SoundManageService : Service() {
-    private var player: MediaPlayer? = null
 
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
@@ -88,8 +89,6 @@ class SoundManageService : Service() {
         manager.notify(0,notification)
     }
 
-
-
     override fun onDestroy() {
         super.onDestroy()
         player?.let {
@@ -100,7 +99,9 @@ class SoundManageService : Service() {
             player = null
         }
     }
+
     companion object{
         const val KEY_BOOL = "key_bool"
+        const val KEY_PLAYING = "key_playing"
     }
 }

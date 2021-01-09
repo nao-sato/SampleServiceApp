@@ -33,8 +33,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun onStopButton(){
+        val intent = Intent(applicationContext, SoundManageService::class.java)
         binding.btStop.setOnClickListener {
-            val intent = Intent(applicationContext, SoundManageService::class.java)
             stopService(intent)
             binding.apply {
                 btPlay.isEnabled = true
@@ -44,8 +44,6 @@ class MainActivity : AppCompatActivity() {
     }
     private fun onStartFromNotification(){
         val fromNotification = intent.getBooleanExtra(SoundManageService.KEY_BOOL, false)
-        Log.d("onStartFromNotification",fromNotification.toString())
-
         if (fromNotification)
             binding.apply {
                 btPlay.isEnabled = false
