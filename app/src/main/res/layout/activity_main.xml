@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout  xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+        <Button
+            android:id="@+id/bt_play"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_play_play"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <Button
+            android:id="@+id/bt_stop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/bt_play_stop"
+            android:enabled="false"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bt_play"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
